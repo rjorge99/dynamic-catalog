@@ -1,4 +1,5 @@
-import Login from './components/login/Login';
+import Login from './views/Login';
+
 function App() {
   return <Login />;
 }
