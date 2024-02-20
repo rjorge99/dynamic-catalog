@@ -42,7 +42,7 @@ const LoginCustom = () => {
                         )
                     }}
                 />
-                <Button variant='contained' fullWidth sx={{ mt: 3 }}>
+                <Button variant='contained' color='secondary' fullWidth sx={{ mt: 3 }}>
                     Sign In
                 </Button>
             </Box>

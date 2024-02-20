@@ -1,14 +1,15 @@
-import { CssBaseline } from '@mui/material';
+import { CssBaseline, ThemeProvider } from '@mui/material';
 import LoginCustom from './views/LoginCustom';
+import { lightTheme } from './themes/theme';
 
 function App() {
     return (
-        <>
+        <ThemeProvider theme={lightTheme}>
             <CssBaseline />
-            {/* <LoginMaterial /> */}
+            {/* <LoginMaterial /> */}   
             {/* <Login /> */}
             <LoginCustom />
-        </>
+        </ThemeProvider>
     );
 }
 
