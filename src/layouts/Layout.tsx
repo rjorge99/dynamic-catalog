@@ -89,7 +89,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
    })
 }));
 
-const DashboardLayout = () => {
+const Layout = () => {
    const theme = useTheme();
    const [open, setOpen] = React.useState(false);
 
@@ -183,4 +183,4 @@ const DashboardLayout = () => {
    );
 };
 
-export default DashboardLayout;
+export default Layout;
