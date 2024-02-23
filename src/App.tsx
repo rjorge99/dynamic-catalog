@@ -1,10 +1,9 @@
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { lightTheme } from './themes/theme';
 import { Route, Routes } from 'react-router-dom';
-import Login from './views/Auth/Login';
-import Register from './views/Auth/Register';
 import DashBoard from './views/DashBoard';
 import Layout from './layouts/Layout';
+import { Login, Register } from './views/auth';
 
 function App() {
    return (
