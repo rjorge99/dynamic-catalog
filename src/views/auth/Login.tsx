@@ -2,8 +2,14 @@ import { AccountCircle, VpnKey } from '@mui/icons-material';
 import { Box, Button, InputAdornment, Link, TextField, Typography } from '@mui/material';
 import catalogIcon from '../../assets/catalog.png';
 import { Link as RouterLink } from 'react-router-dom';
+import { signInWithPopupService } from '../../services/firebase-services';
 
 const Login = () => {
+   const a = useAuth();
+   const handleLoginGoogle = async () => {
+      await signInWithPopupService();
+   };
+
    return (
       <Box padding={2} display='flex' flexDirection='column' alignItems='center' justifyContent='center' height='100%'>
          <img src={catalogIcon} alt='Catalog image' width={80} />
@@ -62,6 +68,11 @@ const Login = () => {
                      Create an account
                   </Typography>
                </Link>
+            </Box>
+            <Box textAlign='center' mt={2}>
+               <Button onClick={handleLoginGoogle} fullWidth>
+                  Google login
+               </Button>
             </Box>
          </Box>
       </Box>
