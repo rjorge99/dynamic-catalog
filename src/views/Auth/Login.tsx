@@ -1,6 +1,7 @@
 import { AccountCircle, VpnKey } from '@mui/icons-material';
 import { Box, Button, InputAdornment, Link, TextField, Typography } from '@mui/material';
-import catalogIcon from '../assets/catalog.png';
+import catalogIcon from '../../assets/catalog.png';
+import { Link as RouterLink } from 'react-router-dom';
 
 const Login = () => {
    return (
@@ -56,7 +57,7 @@ const Login = () => {
                <Typography variant='body2' display='inline-block'>
                   Don't have an account?
                </Typography>{' '}
-               <Link href='#' underline='none'>
+               <Link to='/auth/register' component={RouterLink} underline='none'>
                   <Typography color='secondary' variant='body2' fontWeight='bold' display='inline-block'>
                      Create an account
                   </Typography>
