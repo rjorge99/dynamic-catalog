@@ -3,12 +3,12 @@ import { lightTheme } from './themes/theme';
 import Login from './views/Login';
 
 function App() {
-    return (
-        <ThemeProvider theme={lightTheme}>
-            <CssBaseline />
-            <Login />
-        </ThemeProvider>
-    );
+   return (
+      <ThemeProvider theme={lightTheme}>
+         <CssBaseline />
+         <Login />
+      </ThemeProvider>
+   );
 }
 
 export default App;
