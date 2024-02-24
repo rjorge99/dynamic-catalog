@@ -6,7 +6,7 @@ import {
    signInWithPopup,
    updateProfile
 } from 'firebase/auth';
-import { googleAuthProvider } from '../firebase/firebase-config';
+import { facebookAuthProvider, googleAuthProvider } from '../firebase/firebase-config';
 import { notify } from '../utils/notifier';
 const auth = getAuth();
 
@@ -22,7 +22,7 @@ export const createUserEmailAndPassword = (displayName: string, email: string, p
 
 export const signInWithEmailPassword = async (email: string, password: string) => {
    signInWithEmailAndPassword(auth, email, password).catch(() => {
-      notify('Please verify your information');
+      notify('Email or password is incorrect');
    });
 };
 
@@ -32,4 +32,8 @@ export const signOutFromGoogle = async () => {
 
 export const signInWithGoogle = () => {
    return signInWithPopup(auth, googleAuthProvider);
+};
+
+export const signInWithFacebook = () => {
+   return signInWithPopup(auth, facebookAuthProvider);
 };

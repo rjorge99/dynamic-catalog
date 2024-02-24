@@ -1,11 +1,17 @@
 import { AccountCircle, VpnKey } from '@mui/icons-material';
 import { Box, Button, InputAdornment, Link, TextField, Typography } from '@mui/material';
-import catalogIcon from '../../assets/catalog.png';
-import { Link as RouterLink } from 'react-router-dom';
 import { Formik } from 'formik';
+import { Link as RouterLink } from 'react-router-dom';
 import { useAuthStore } from '../../stores/auth-store';
+import * as Yup from 'yup';
+import catalogIcon from '../../assets/catalog.png';
 
-const INITIAL_VALUES = {
+interface IFormProps {
+   email: string;
+   password: string;
+}
+
+const INITIAL_VALUES: IFormProps = {
    email: '',
    password: ''
 };
@@ -13,16 +19,6 @@ const INITIAL_VALUES = {
 const Login = () => {
    const signInWithGoogle = useAuthStore((store) => store.signInWithGoogle);
    const signInWithEmailPassword = useAuthStore((store) => store.signInWithEmailPassword);
-
-   const handleLoginGoogle = async () => {
-      signInWithGoogle();
-   };
-
-   const handleSignInWithEmailPassword = async () => {
-      signInWithEmailPassword('fake@test.com', 'password');
-   };
-
-   const handleSubmit = () => {};
 
    return (
       <Box padding={2} display='flex' flexDirection='column' alignItems='center' justifyContent='center' height='100%'>
@@ -32,66 +28,91 @@ const Login = () => {
                Sign into your account
             </Typography>
          </Box>
-         <Formik onSubmit={handleSubmit} initialValues={INITIAL_VALUES}></Formik>
-         <Box
-            sx={{
-               mt: 5,
-               width: '100%',
-               maxWidth: {
-                  sm: '480px'
-               }
-            }}>
-            <TextField
-               fullWidth
-               label='Email'
-               type='email'
-               name='email'
-               InputProps={{
-                  endAdornment: (
-                     <InputAdornment position='end'>
-                        <AccountCircle />
-                     </InputAdornment>
-                  )
-               }}
-            />
-            <TextField
-               sx={{ mt: 3 }}
-               fullWidth
-               label='Password'
-               name='password'
-               type='password'
-               InputProps={{
-                  endAdornment: (
-                     <InputAdornment position='end'>
-                        <VpnKey />
-                     </InputAdornment>
-                  )
-               }}
-            />
-            {/* <Link href='#' underline='none'>
-               <Typography color='secondary' variant='body2' fontWeight='bold' mt={1} textAlign='right'>
-                  Forgot your password?
-               </Typography>
-            </Link> */}
-            <Button onClick={handleSignInWithEmailPassword} variant='contained' fullWidth sx={{ mt: 3 }}>
-               Sign In
-            </Button>
-            <Box textAlign='center' mt={3}>
-               <Typography variant='body2' display='inline-block'>
-                  Don't have an account?
-               </Typography>{' '}
-               <Link to='/register' component={RouterLink} underline='none'>
-                  <Typography variant='body2' fontWeight='bold' display='inline-block'>
-                     Create an account
-                  </Typography>
-               </Link>
-            </Box>
-            <Box textAlign='center' mt={2}>
-               <Button onClick={handleLoginGoogle} variant='outlined' fullWidth>
-                  Google login
-               </Button>
-            </Box>
-         </Box>
+         <Formik
+            onSubmit={({ email, password }, { setSubmitting }) => {
+               setSubmitting(true);
+               signInWithEmailPassword(email, password);
+            }}
+            validationSchema={Yup.object({
+               email: Yup.string().email('Invalid email').required('Email is required'),
+               password: Yup.string()
+                  .min(5, 'Must be at least 5 characters')
+                  .max(20, 'Must be at most 20 characters')
+                  .required('Password is required')
+            })}
+            initialValues={INITIAL_VALUES}>
+            {({ values, errors, handleChange, handleBlur, isSubmitting, touched, handleSubmit }) => (
+               <form onSubmit={handleSubmit}>
+                  <Box
+                     sx={{
+                        mt: 5,
+                        width: '100%',
+                        maxWidth: {
+                           sm: '480px'
+                        }
+                     }}>
+                     <TextField
+                        value={values.email}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        fullWidth
+                        label='Email'
+                        type='email'
+                        name='email'
+                        helperText={errors.email && touched.email && errors.email}
+                        error={touched.email && !!errors?.email}
+                        InputProps={{
+                           endAdornment: (
+                              <InputAdornment position='end'>
+                                 <AccountCircle />
+                              </InputAdornment>
+                           )
+                        }}
+                     />
+                     <TextField
+                        helperText={errors.password && touched.password && errors.password}
+                        error={touched.password && !!errors?.password}
+                        value={values.password}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        sx={{ mt: 3 }}
+                        fullWidth
+                        label='Password'
+                        name='password'
+                        type='password'
+                        InputProps={{
+                           endAdornment: (
+                              <InputAdornment position='end'>
+                                 <VpnKey />
+                              </InputAdornment>
+                           )
+                        }}
+                     />
+                     <Button disabled={isSubmitting} variant='contained' fullWidth sx={{ mt: 3 }} type='submit'>
+                        Sign In
+                     </Button>
+                     <Box textAlign='center' mt={3}>
+                        <Typography variant='body2' display='inline-block'>
+                           Don't have an account?
+                        </Typography>{' '}
+                        <Link to='/register' component={RouterLink} underline='none'>
+                           <Typography variant='body2' fontWeight='bold' display='inline-block'>
+                              Create an account
+                           </Typography>
+                        </Link>
+                     </Box>
+                     <Box textAlign='center' mt={2}>
+                        <Button onClick={signInWithGoogle} variant='outlined' fullWidth>
+                           Login with Google
+                        </Button>
+                        {/* <Button onClick={signInWithFacebook} variant='outlined' fullWidth sx={{ mt: 2 }}>
+                           Login with Facebook
+                        </Button> */}
+                     </Box>
+                  </Box>
+               </form>
+            )}
+         </Formik>
       </Box>
    );
 };

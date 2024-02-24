@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import {
    signInWithGoogle,
+   signInWithFacebook,
    signOutFromGoogle,
    signInWithEmailPassword,
    createUserEmailAndPassword
@@ -17,6 +18,7 @@ interface AuthState {
    loggedUser: LoggedUser | null;
    setLoggedUser: (loggedUser: LoggedUser | null) => void;
    signInWithGoogle: () => Promise<UserCredential>;
+   signInWithFacebook: () => Promise<UserCredential>;
    signOutFromGoogle: () => void;
    signInWithEmailPassword: (email: string, password: string) => void;
    createUserEmailAndPassword: (displayName: string, email: string, password: string) => void;
@@ -27,6 +29,7 @@ export const useAuthStore = create<AuthState>()(
       loggedUser: null,
       setLoggedUser: (loggedUser: LoggedUser | null) => set({ loggedUser }),
       signInWithGoogle,
+      signInWithFacebook,
       signOutFromGoogle,
       signInWithEmailPassword,
       createUserEmailAndPassword
