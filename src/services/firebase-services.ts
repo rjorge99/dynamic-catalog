@@ -4,9 +4,7 @@ import {
    signInWithEmailAndPassword,
    signOut,
    signInWithPopup,
-   updateProfile,
-   User,
-   Auth
+   updateProfile
 } from 'firebase/auth';
 import { googleAuthProvider } from '../firebase/firebase-config';
 import { notify } from '../utils/notifier';
@@ -23,20 +21,9 @@ export const createUserEmailAndPassword = (displayName: string, email: string, p
 };
 
 export const signInWithEmailPassword = async (email: string, password: string) => {
-   signInWithEmailAndPassword(auth, email, password)
-      .then((userCredentials) => {})
-      .catch((error) => {
-         notify('Please verify your information');
-      });
-   // .then((userCredential) => {
-   //    // Signed in
-
-   //    // ...
-   // })
-   // .catch((error) => {
-   //    // const errorCode = error.code;
-   //    // const errorMessage = error.message;
-   // });
+   signInWithEmailAndPassword(auth, email, password).catch(() => {
+      notify('Please verify your information');
+   });
 };
 
 export const signOutFromGoogle = async () => {
