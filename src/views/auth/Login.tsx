@@ -6,7 +6,7 @@ import { useAuthStore } from '../../stores/auth-store';
 
 const Login = () => {
    const signInWithGoogle = useAuthStore((store) => store.signInWithGoogle);
-   const signOutFromGoogle = useAuthStore((store) => store.signOutFromGoogle);
+
    const signInWithEmailPassword = useAuthStore((store) => store.signInWithEmailPassword);
 
    const handleLoginGoogle = async () => {
@@ -15,10 +15,6 @@ const Login = () => {
 
    const handleSignInWithEmailPassword = async () => {
       signInWithEmailPassword('fake@test.com', 'password');
-   };
-
-   const handleLogoutGoogle = async () => {
-      signOutFromGoogle();
    };
 
    return (
@@ -69,27 +65,22 @@ const Login = () => {
                   Forgot your password?
                </Typography>
             </Link> */}
-            <Button onClick={handleSignInWithEmailPassword} variant='contained' color='secondary' fullWidth sx={{ mt: 3 }}>
+            <Button onClick={handleSignInWithEmailPassword} variant='contained' fullWidth sx={{ mt: 3 }}>
                Sign In
             </Button>
             <Box textAlign='center' mt={3}>
                <Typography variant='body2' display='inline-block'>
                   Don't have an account?
                </Typography>{' '}
-               <Link to='/auth/register' component={RouterLink} underline='none'>
-                  <Typography color='secondary' variant='body2' fontWeight='bold' display='inline-block'>
+               <Link to='/register' component={RouterLink} underline='none'>
+                  <Typography variant='body2' fontWeight='bold' display='inline-block'>
                      Create an account
                   </Typography>
                </Link>
             </Box>
             <Box textAlign='center' mt={2}>
-               <Button onClick={handleLoginGoogle} fullWidth>
+               <Button onClick={handleLoginGoogle} variant='outlined' fullWidth>
                   Google login
-               </Button>
-            </Box>
-            <Box textAlign='center' mt={2}>
-               <Button onClick={handleLogoutGoogle} fullWidth>
-                  Google logout
                </Button>
             </Box>
          </Box>

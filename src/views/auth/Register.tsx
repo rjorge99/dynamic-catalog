@@ -84,7 +84,7 @@ const Register = () => {
                      )
                   }}
                />
-               <Button onClick={handleCreateUser} variant='contained' color='secondary' fullWidth sx={{ mt: 3 }}>
+               <Button onClick={handleCreateUser} variant='contained' fullWidth sx={{ mt: 3 }}>
                   Sign Up
                </Button>
 
@@ -92,8 +92,8 @@ const Register = () => {
                   <Typography variant='body2' display='inline-block'>
                      Already an account?
                   </Typography>{' '}
-                  <Link to='/auth/login' component={RouterLink} underline='none'>
-                     <Typography color='secondary' variant='body2' fontWeight='bold' display='inline-block'>
+                  <Link to='/' component={RouterLink} underline='none'>
+                     <Typography variant='body2' fontWeight='bold' display='inline-block'>
                         Sign In
                      </Typography>
                   </Link>

@@ -19,6 +19,8 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import { Outlet } from 'react-router-dom';
+import { useAuthStore } from '../stores/auth-store';
+import { Logout } from '@mui/icons-material';
 
 const drawerWidth = 240;
 
@@ -92,6 +94,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 const Layout = () => {
    const theme = useTheme();
    const [open, setOpen] = React.useState(false);
+   const signOutFromGoogle = useAuthStore((store) => store.signOutFromGoogle);
 
    const handleDrawerOpen = () => {
       setOpen(true);
@@ -118,7 +121,7 @@ const Layout = () => {
                   <MenuIcon />
                </IconButton>
                <Typography variant='h6' noWrap component='div'>
-                  Mini variant drawer
+                  Catalogs
                </Typography>
             </Toolbar>
          </AppBar>
@@ -173,6 +176,27 @@ const Layout = () => {
                      </ListItemButton>
                   </ListItem>
                ))}
+            </List>
+            <Divider />
+            <List>
+               <ListItem onClick={signOutFromGoogle} disablePadding sx={{ display: 'block' }}>
+                  <ListItemButton
+                     sx={{
+                        minHeight: 48,
+                        justifyContent: open ? 'initial' : 'center',
+                        px: 2.5
+                     }}>
+                     <ListItemIcon
+                        sx={{
+                           minWidth: 0,
+                           mr: open ? 3 : 'auto',
+                           justifyContent: 'center'
+                        }}>
+                        <Logout />
+                     </ListItemIcon>
+                     <ListItemText primary='Logout' sx={{ opacity: open ? 1 : 0 }} />
+                  </ListItemButton>
+               </ListItem>
             </List>
          </Drawer>
          <Box component='main' sx={{ flexGrow: 1, p: 3 }}>
