@@ -2,18 +2,18 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, si
 import { googleAuthProvider } from '../firebase/firebase-config';
 const auth = getAuth();
 
-export const createUserWithEmailAndPasswordService = async (email: string, password: string) => {
-   createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-         // Signed up
-         const user = userCredential.user;
-         // ...
-      })
-      .catch((error) => {
-         const errorCode = error.code;
-         const errorMessage = error.message;
-         // ..
-      });
+export const createUserWithEmailAndPasswordService = (email: string, password: string) => {
+   return createUserWithEmailAndPassword(auth, email, password).then((userCredential) => userCredential);
+   // .then((userCredential) => {
+   //    // Signed up
+   //    // const user = userCredential.user;
+   //    // ...
+   // })
+   // .catch((error) => {
+   //    // const errorCode = error.code;
+   //    // const errorMessage = error.message;
+   //    // ..
+   // });
 };
 
 export const signInWithEmailAndPasswordService = async (email: string, password: string) => {
@@ -24,22 +24,15 @@ export const signInWithEmailAndPasswordService = async (email: string, password:
          // ...
       })
       .catch((error) => {
-         const errorCode = error.code;
-         const errorMessage = error.message;
+         // const errorCode = error.code;
+         // const errorMessage = error.message;
       });
 };
 
-export const signOutService = async () => {
-   signOut(auth)
-      .then(() => {
-         // Sign-out successful.
-      })
-      .catch((error) => {
-         // An error happened.
-      });
+export const signOutFromGoogle = async () => {
+   return signOut(auth);
 };
 
-export const signInWithPopupService = async () => {
-   const result = await signInWithPopup(auth, googleAuthProvider);
-   return result;
+export const signInWithGoogle = () => {
+   return signInWithPopup(auth, googleAuthProvider);
 };

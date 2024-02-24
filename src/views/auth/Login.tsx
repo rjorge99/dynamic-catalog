@@ -2,12 +2,18 @@ import { AccountCircle, VpnKey } from '@mui/icons-material';
 import { Box, Button, InputAdornment, Link, TextField, Typography } from '@mui/material';
 import catalogIcon from '../../assets/catalog.png';
 import { Link as RouterLink } from 'react-router-dom';
-import { signInWithPopupService } from '../../services/firebase-services';
+import { useAuthStore } from '../../stores/auth-store';
 
 const Login = () => {
-   const a = useAuth();
+   const signInWithGoogle = useAuthStore((store) => store.signInWithGoogle);
+   const signOutFromGoogle = useAuthStore((store) => store.signOutFromGoogle);
+
    const handleLoginGoogle = async () => {
-      await signInWithPopupService();
+      await signInWithGoogle();
+   };
+
+   const handleLogoutGoogle = async () => {
+      await signOutFromGoogle();
    };
 
    return (
@@ -72,6 +78,11 @@ const Login = () => {
             <Box textAlign='center' mt={2}>
                <Button onClick={handleLoginGoogle} fullWidth>
                   Google login
+               </Button>
+            </Box>
+            <Box textAlign='center' mt={2}>
+               <Button onClick={handleLogoutGoogle} fullWidth>
+                  Google logout
                </Button>
             </Box>
          </Box>

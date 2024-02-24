@@ -1,15 +1,43 @@
 import { create } from 'zustand';
-import { signInWithPopupService } from '../services/firebase-services';
+import { signInWithGoogle, signOutFromGoogle } from '../services/firebase-services';
+import { UserCredential, getAuth, onAuthStateChanged } from 'firebase/auth';
+import zukeeper from 'zukeeper';
 
-interface AuthState {
-   isLoggedIn: boolean;
-   signInWithGooglePopup: () => void;
+interface LoggedUser {
+   uid: string;
+   displayName: string;
 }
 
-const useAuthStore = create<AuthState>()((set) => ({
-   isLoggedIn: false,
-   signInWithGooglePopup: async () => {
-      const result = await signInWithPopupService();
-      console.log(result);
-   }
-}));
+interface AuthState {
+   loggedUser: LoggedUser | null;
+   signInWithGoogle: () => Promise<UserCredential>;
+   signOutFromGoogle: () => void;
+}
+
+export const useAuthStore = create<AuthState>()(
+   zukeeper((set: any) => {
+      const auth = getAuth();
+      onAuthStateChanged(auth, (user) => {
+         console.log(user);
+         const loggedUser = user
+            ? {
+                 uid: user?.uid,
+                 displayName: user.displayName
+              }
+            : null;
+
+         set({
+            loggedUser
+         });
+      });
+
+      return {
+         loggedUser: null,
+         signInWithGoogle,
+         signOutFromGoogle
+      };
+   })
+);
+
+declare const window: any;
+window.store = useAuthStore;
