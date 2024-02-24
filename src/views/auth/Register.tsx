@@ -2,8 +2,15 @@ import { AccountCircle, VpnKey } from '@mui/icons-material';
 import { Link as RouterLink } from 'react-router-dom';
 import { Box, Button, InputAdornment, Link, TextField, Typography } from '@mui/material';
 import catalogIcon from '../../assets/catalog.png';
+import { useAuthStore } from '../../stores/auth-store';
 
 const Register = () => {
+   const createUserEmailAndPassword = useAuthStore((store) => store.createUserEmailAndPassword);
+
+   const handleCreateUser = async () => {
+      await createUserEmailAndPassword('jprge', 'carlos@hotmail.com', '1233456');
+   };
+
    return (
       <>
          <Box padding={2} display='flex' flexDirection='column' alignItems='center' justifyContent='center' height='100%'>
@@ -23,7 +30,24 @@ const Register = () => {
                }}>
                <TextField
                   fullWidth
+                  label='Name'
+                  name='name'
+                  type='text'
+                  autoComplete='off'
+                  InputProps={{
+                     endAdornment: (
+                        <InputAdornment position='end'>
+                           <AccountCircle />
+                        </InputAdornment>
+                     )
+                  }}
+               />
+               <TextField
+                  fullWidth
+                  sx={{ mt: 3 }}
                   label='Email'
+                  autoComplete='off'
+                  name='email'
                   type='email'
                   InputProps={{
                      endAdornment: (
@@ -36,6 +60,7 @@ const Register = () => {
                <TextField
                   sx={{ mt: 3 }}
                   fullWidth
+                  name='password'
                   label='Password'
                   type='password'
                   InputProps={{
@@ -59,7 +84,7 @@ const Register = () => {
                      )
                   }}
                />
-               <Button variant='contained' color='secondary' fullWidth sx={{ mt: 3 }}>
+               <Button onClick={handleCreateUser} variant='contained' color='secondary' fullWidth sx={{ mt: 3 }}>
                   Sign Up
                </Button>
 

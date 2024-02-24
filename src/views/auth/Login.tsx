@@ -7,13 +7,18 @@ import { useAuthStore } from '../../stores/auth-store';
 const Login = () => {
    const signInWithGoogle = useAuthStore((store) => store.signInWithGoogle);
    const signOutFromGoogle = useAuthStore((store) => store.signOutFromGoogle);
+   const signInWithEmailPassword = useAuthStore((store) => store.signInWithEmailPassword);
 
    const handleLoginGoogle = async () => {
-      await signInWithGoogle();
+      signInWithGoogle();
+   };
+
+   const handleSignInWithEmailPassword = async () => {
+      signInWithEmailPassword('fake@test.com', 'password');
    };
 
    const handleLogoutGoogle = async () => {
-      await signOutFromGoogle();
+      signOutFromGoogle();
    };
 
    return (
@@ -36,6 +41,7 @@ const Login = () => {
                fullWidth
                label='Email'
                type='email'
+               name='email'
                InputProps={{
                   endAdornment: (
                      <InputAdornment position='end'>
@@ -48,6 +54,7 @@ const Login = () => {
                sx={{ mt: 3 }}
                fullWidth
                label='Password'
+               name='password'
                type='password'
                InputProps={{
                   endAdornment: (
@@ -57,12 +64,12 @@ const Login = () => {
                   )
                }}
             />
-            <Link href='#' underline='none'>
+            {/* <Link href='#' underline='none'>
                <Typography color='secondary' variant='body2' fontWeight='bold' mt={1} textAlign='right'>
                   Forgot your password?
                </Typography>
-            </Link>
-            <Button variant='contained' color='secondary' fullWidth sx={{ mt: 3 }}>
+            </Link> */}
+            <Button onClick={handleSignInWithEmailPassword} variant='contained' color='secondary' fullWidth sx={{ mt: 3 }}>
                Sign In
             </Button>
             <Box textAlign='center' mt={3}>

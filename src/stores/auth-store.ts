@@ -1,7 +1,12 @@
 import { create } from 'zustand';
-import { signInWithGoogle, signOutFromGoogle } from '../services/firebase-services';
+import {
+   signInWithGoogle,
+   signOutFromGoogle,
+   signInWithEmailPassword,
+   createUserEmailAndPassword
+} from '../services/firebase-services';
 import { UserCredential, getAuth, onAuthStateChanged } from 'firebase/auth';
-import zukeeper from 'zukeeper';
+import { devtools } from 'zustand/middleware';
 
 interface LoggedUser {
    uid: string;
@@ -12,17 +17,21 @@ interface AuthState {
    loggedUser: LoggedUser | null;
    signInWithGoogle: () => Promise<UserCredential>;
    signOutFromGoogle: () => void;
+   signInWithEmailPassword: (email: string, password: string) => void;
+   createUserEmailAndPassword: (displayName: string, email: string, password: string) => void;
 }
 
 export const useAuthStore = create<AuthState>()(
-   zukeeper((set: any) => {
+   devtools((set) => {
       const auth = getAuth();
+
       onAuthStateChanged(auth, (user) => {
-         console.log(user);
-         const loggedUser = user
+         const isUserLogged = !!user;
+
+         const loggedUser = isUserLogged
             ? {
-                 uid: user?.uid,
-                 displayName: user.displayName
+                 uid: user.uid!,
+                 displayName: user.displayName!
               }
             : null;
 
@@ -34,7 +43,9 @@ export const useAuthStore = create<AuthState>()(
       return {
          loggedUser: null,
          signInWithGoogle,
-         signOutFromGoogle
+         signOutFromGoogle,
+         signInWithEmailPassword,
+         createUserEmailAndPassword
       };
    })
 );
