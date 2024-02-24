@@ -2,11 +2,16 @@ import { AccountCircle, VpnKey } from '@mui/icons-material';
 import { Box, Button, InputAdornment, Link, TextField, Typography } from '@mui/material';
 import catalogIcon from '../../assets/catalog.png';
 import { Link as RouterLink } from 'react-router-dom';
+import { Formik } from 'formik';
 import { useAuthStore } from '../../stores/auth-store';
+
+const INITIAL_VALUES = {
+   email: '',
+   password: ''
+};
 
 const Login = () => {
    const signInWithGoogle = useAuthStore((store) => store.signInWithGoogle);
-
    const signInWithEmailPassword = useAuthStore((store) => store.signInWithEmailPassword);
 
    const handleLoginGoogle = async () => {
@@ -17,6 +22,8 @@ const Login = () => {
       signInWithEmailPassword('fake@test.com', 'password');
    };
 
+   const handleSubmit = () => {};
+
    return (
       <Box padding={2} display='flex' flexDirection='column' alignItems='center' justifyContent='center' height='100%'>
          <img src={catalogIcon} alt='Catalog image' width={80} />
@@ -25,6 +32,7 @@ const Login = () => {
                Sign into your account
             </Typography>
          </Box>
+         <Formik onSubmit={handleSubmit} initialValues={INITIAL_VALUES}></Formik>
          <Box
             sx={{
                mt: 5,

@@ -3,12 +3,15 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Box, Button, InputAdornment, Link, TextField, Typography } from '@mui/material';
 import catalogIcon from '../../assets/catalog.png';
 import { useAuthStore } from '../../stores/auth-store';
+import { useUIStore } from '../../stores/ui-store';
 
 const Register = () => {
    const createUserEmailAndPassword = useAuthStore((store) => store.createUserEmailAndPassword);
+   const setIsLoading = useUIStore((store) => store.setIsLoading);
 
    const handleCreateUser = async () => {
-      await createUserEmailAndPassword('jprge', 'carlos@hotmail.com', '1233456');
+      setIsLoading(true);
+      // await createUserEmailAndPassword('jprge', 'carlos@hotmail.com', '1233456');
    };
 
    return (
