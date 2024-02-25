@@ -1,10 +1,11 @@
-import { AccountCircle, VpnKey } from '@mui/icons-material';
-import { Box, Button, InputAdornment, Link, TextField, Typography } from '@mui/material';
+import { LockOutlined, MailOutline } from '@mui/icons-material';
+import { Box, Button, Icon, InputAdornment, Link, TextField, Typography } from '@mui/material';
 import { Formik } from 'formik';
 import { Link as RouterLink } from 'react-router-dom';
 import { useAuthStore } from '../../stores/auth-store';
 import * as Yup from 'yup';
 import catalogIcon from '../../assets/catalog.png';
+import googleIcon from '../../assets/google_icon.svg';
 
 interface IFormProps {
    email: string;
@@ -14,6 +15,14 @@ interface IFormProps {
 const INITIAL_VALUES: IFormProps = {
    email: '',
    password: ''
+};
+
+const GoogleIcon = () => {
+   return (
+      <Icon aria-label='google icon' style={{ display: 'flex', justifyContent: 'center' }}>
+         <img src={googleIcon} alt='google icon' style={{ width: '100%' }} />
+      </Icon>
+   );
 };
 
 const Login = () => {
@@ -64,7 +73,7 @@ const Login = () => {
                         InputProps={{
                            endAdornment: (
                               <InputAdornment position='end'>
-                                 <AccountCircle />
+                                 <MailOutline />
                               </InputAdornment>
                            )
                         }}
@@ -83,7 +92,7 @@ const Login = () => {
                         InputProps={{
                            endAdornment: (
                               <InputAdornment position='end'>
-                                 <VpnKey />
+                                 <LockOutlined />
                               </InputAdornment>
                            )
                         }}
@@ -102,12 +111,9 @@ const Login = () => {
                         </Link>
                      </Box>
                      <Box textAlign='center' mt={2}>
-                        <Button onClick={signInWithGoogle} variant='outlined' fullWidth>
+                        <Button onClick={signInWithGoogle} variant='outlined' fullWidth startIcon={<GoogleIcon />}>
                            Login with Google
                         </Button>
-                        {/* <Button onClick={signInWithFacebook} variant='outlined' fullWidth sx={{ mt: 2 }}>
-                           Login with Facebook
-                        </Button> */}
                      </Box>
                   </Box>
                </form>

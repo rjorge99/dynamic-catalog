@@ -1,4 +1,4 @@
-import { AccountCircle, VpnKey } from '@mui/icons-material';
+import { AccountCircleOutlined, LockOutlined, MailOutline } from '@mui/icons-material';
 import { Link as RouterLink } from 'react-router-dom';
 import { Box, Button, InputAdornment, Link, TextField, Typography } from '@mui/material';
 import catalogIcon from '../../assets/catalog.png';
@@ -73,7 +73,7 @@ const Register = () => {
                            InputProps={{
                               endAdornment: (
                                  <InputAdornment position='end'>
-                                    <AccountCircle />
+                                    <AccountCircleOutlined />
                                  </InputAdornment>
                               )
                            }}
@@ -93,7 +93,7 @@ const Register = () => {
                            InputProps={{
                               endAdornment: (
                                  <InputAdornment position='end'>
-                                    <AccountCircle />
+                                    <MailOutline />
                                  </InputAdornment>
                               )
                            }}
@@ -112,7 +112,7 @@ const Register = () => {
                            InputProps={{
                               endAdornment: (
                                  <InputAdornment position='end'>
-                                    <VpnKey />
+                                    <LockOutlined />
                                  </InputAdornment>
                               )
                            }}
@@ -131,7 +131,7 @@ const Register = () => {
                            InputProps={{
                               endAdornment: (
                                  <InputAdornment position='end'>
-                                    <VpnKey />
+                                    <LockOutlined />
                                  </InputAdornment>
                               )
                            }}
@@ -142,7 +142,7 @@ const Register = () => {
 
                         <Box textAlign='center' mt={3}>
                            <Typography variant='body2' display='inline-block'>
-                              Already an account?
+                              Already have an account?
                            </Typography>{' '}
                            <Link to='/' component={RouterLink} underline='none'>
                               <Typography variant='body2' fontWeight='bold' display='inline-block'>
