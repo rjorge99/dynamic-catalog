@@ -144,7 +144,7 @@ const Register = () => {
                            <Typography variant='body2' display='inline-block'>
                               Already have an account?
                            </Typography>{' '}
-                           <Link to='/' component={RouterLink} underline='none'>
+                           <Link to='/auth/login' component={RouterLink} underline='none'>
                               <Typography variant='body2' fontWeight='bold' display='inline-block'>
                                  Sign In
                               </Typography>

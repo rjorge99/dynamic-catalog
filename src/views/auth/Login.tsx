@@ -26,6 +26,7 @@ const GoogleIcon = () => {
 };
 
 const Login = () => {
+   console.log('Login');
    const signInWithGoogle = useAuthStore((store) => store.signInWithGoogle);
    const signInWithEmailPassword = useAuthStore((store) => store.signInWithEmailPassword);
 
@@ -104,7 +105,7 @@ const Login = () => {
                         <Typography variant='body2' display='inline-block'>
                            Don't have an account?
                         </Typography>{' '}
-                        <Link to='/register' component={RouterLink} underline='none'>
+                        <Link to='/auth/register' component={RouterLink} underline='none'>
                            <Typography variant='body2' fontWeight='bold' display='inline-block'>
                               Create an account
                            </Typography>

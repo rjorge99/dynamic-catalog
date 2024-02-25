@@ -1,4 +1,3 @@
-import * as React from 'react';
 import Box from '@mui/material/Box';
 import { useAuthStore } from '../stores/auth-store';
 import {
@@ -20,10 +19,10 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { ChevronLeft, Logout } from '@mui/icons-material';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
-import { Outlet } from 'react-router-dom';
+import { PropsWithChildren, useState } from 'react';
 
-const Layout = () => {
-   const [open, setOpen] = React.useState(false);
+const Layout = ({ children }: PropsWithChildren) => {
+   const [open, setOpen] = useState(false);
    const signOutFromGoogle = useAuthStore((store) => store.signOutFromGoogle);
 
    const toggleDrawer = () => {
@@ -120,9 +119,7 @@ const Layout = () => {
                </Box>
             </Toolbar>
          </AppBar>
-         <Box padding={4}>
-            <Outlet />
-         </Box>
+         <Box padding={4}>{children}</Box>
       </Box>
    );
 };

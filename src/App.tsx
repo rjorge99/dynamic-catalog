@@ -1,19 +1,19 @@
 import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { Login, Register } from './views/auth';
-import { Route, Routes, useNavigate } from 'react-router-dom';
 import { useAuthStore } from './stores/auth-store';
 import { useEffect } from 'react';
 import { useMemo } from 'react';
 import { useUIStore } from './stores/ui-store';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import PrivateRoutes from './routes/private-routes';
 import DashBoard from './views/DashBoard';
+import { Login, Register } from './views/auth';
+import PublicRoutes from './routes/public-routes';
 import Layout from './layouts/Layout';
 
 function App() {
-   const loggedUser = useAuthStore((store) => store.loggedUser);
    const setLoggedUser = useAuthStore((store) => store.setLoggedUser);
    const colorMode = useUIStore((store) => store.colorMode);
-   const navigate = useNavigate();
    const auth = getAuth();
 
    useEffect(() => {
@@ -39,23 +39,34 @@ function App() {
       });
    }, [colorMode]);
 
-   useEffect(() => {
-      if (loggedUser) navigate('/dashboard');
-      else navigate('/');
-   }, [loggedUser]);
-
    return (
       <ThemeProvider theme={currentTheme}>
          <CssBaseline />
-         <Routes>
-            <Route path='/'>
-               <Route index element={<Login />} />
-               <Route path='register' element={<Register />} />
-               <Route path='dashboard' element={<Layout />}>
-                  <Route index element={<DashBoard />} />
-               </Route>
-            </Route>
-         </Routes>
+         <BrowserRouter basename='dynamic-catalog'>
+            <Routes>
+               <Route
+                  path='/'
+                  element={
+                     <PrivateRoutes>
+                        <Layout>
+                           <DashBoard />
+                        </Layout>
+                     </PrivateRoutes>
+                  }
+               />
+               <Route
+                  path='/auth/*'
+                  element={
+                     <PublicRoutes>
+                        <Routes>
+                           <Route path='/login' element={<Login />} />
+                           <Route path='/register' element={<Register />} />
+                        </Routes>
+                     </PublicRoutes>
+                  }
+               />
+            </Routes>
+         </BrowserRouter>
       </ThemeProvider>
    );
 }
