@@ -12,6 +12,7 @@ import { devtools } from 'zustand/middleware';
 interface LoggedUser {
    uid: string;
    displayName: string;
+   photoURL: string;
 }
 
 interface AuthState {

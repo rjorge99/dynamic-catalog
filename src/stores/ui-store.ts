@@ -1,11 +1,18 @@
 import { create } from 'zustand';
 
 interface UiState {
-   isLoading: boolean;
-   setIsLoading: (isLoading: boolean) => void;
+   colorMode: 'light' | 'dark';
+   toggleColorMode: () => void;
 }
 
-export const useUIStore = create<UiState>()((set) => ({
-   isLoading: false,
-   setIsLoading: (isLoading: boolean) => set({ isLoading })
+export const useUIStore = create<UiState>()((set, get) => ({
+   colorMode: localStorage.getItem('colorMode') ? (localStorage.getItem('colorMode') as 'light' | 'dark') : 'light',
+   toggleColorMode: () => {
+      const colorMode = get().colorMode === 'light' ? 'dark' : 'light';
+      localStorage.setItem('colorMode', colorMode);
+
+      set({
+         colorMode
+      });
+   }
 }));

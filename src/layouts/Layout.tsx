@@ -21,11 +21,16 @@ import MailIcon from '@mui/icons-material/Mail';
 import { Outlet } from 'react-router-dom';
 import { useAuthStore } from '../stores/auth-store';
 import { Logout } from '@mui/icons-material';
+import UserInformation from './components/UserInformation';
+import ToggleTheme from './components/ToggleTheme';
 
-const drawerWidth = 240;
+export const DRAWER_WIDTH = 240;
+export interface AppBarProps extends MuiAppBarProps {
+   open?: boolean;
+}
 
 const openedMixin = (theme: Theme): CSSObject => ({
-   width: drawerWidth,
+   width: DRAWER_WIDTH,
    transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen
@@ -54,10 +59,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
    ...theme.mixins.toolbar
 }));
 
-interface AppBarProps extends MuiAppBarProps {
-   open?: boolean;
-}
-
 const AppBar = styled(MuiAppBar, {
    shouldForwardProp: (prop) => prop !== 'open'
 })<AppBarProps>(({ theme, open }) => ({
@@ -67,8 +68,8 @@ const AppBar = styled(MuiAppBar, {
       duration: theme.transitions.duration.leavingScreen
    }),
    ...(open && {
-      marginLeft: drawerWidth,
-      width: `calc(100% - ${drawerWidth}px)`,
+      marginLeft: DRAWER_WIDTH,
+      width: `calc(100% - ${DRAWER_WIDTH}px)`,
       transition: theme.transitions.create(['width', 'margin'], {
          easing: theme.transitions.easing.sharp,
          duration: theme.transitions.duration.enteringScreen
@@ -77,7 +78,7 @@ const AppBar = styled(MuiAppBar, {
 }));
 
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(({ theme, open }) => ({
-   width: drawerWidth,
+   width: DRAWER_WIDTH,
    flexShrink: 0,
    whiteSpace: 'nowrap',
    boxSizing: 'border-box',
@@ -108,7 +109,7 @@ const Layout = () => {
       <Box sx={{ display: 'flex' }}>
          <CssBaseline />
          <AppBar position='fixed' open={open}>
-            <Toolbar>
+            <Toolbar sx={{ display: 'flex' }}>
                <IconButton
                   color='inherit'
                   aria-label='open drawer'
@@ -120,9 +121,13 @@ const Layout = () => {
                   }}>
                   <MenuIcon />
                </IconButton>
-               <Typography variant='h6' noWrap component='div'>
+               <Typography variant='h6' noWrap component='div' flexGrow={1}>
                   Catalogs
                </Typography>
+               <Box display='flex' alignItems='center' gap={1}>
+                  <ToggleTheme />
+                  <UserInformation />
+               </Box>
             </Toolbar>
          </AppBar>
          <Drawer variant='permanent' open={open}>
