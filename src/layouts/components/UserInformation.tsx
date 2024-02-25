@@ -7,7 +7,7 @@ const UserInformation = () => {
 
    return (
       <Box display='flex' alignItems='center' gap={2}>
-         <Typography variant='body1' sx={{ display: { xs: 'none', sm: 'block' } }}>
+         <Typography variant='body1' sx={{ display: { sm: 'none', md: 'block' } }}>
             {loggedUser?.displayName}
          </Typography>
          <Avatar sx={{ width: 40, height: 40 }} src={userImage} />
