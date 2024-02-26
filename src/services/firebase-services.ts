@@ -26,7 +26,7 @@ export const signInWithEmailPassword = async (email: string, password: string) =
    });
 };
 
-export const signOutFromGoogle = async () => {
+export const signOutService = async () => {
    return signOut(auth);
 };
 

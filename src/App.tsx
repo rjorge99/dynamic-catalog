@@ -10,9 +10,11 @@ import DashBoard from './views/DashBoard';
 import { Login, Register } from './views/auth';
 import PublicRoutes from './routes/public-routes';
 import Layout from './layouts/Layout';
+import { useCatalogsStore } from './stores/catalogs-store';
 
 function App() {
    const setLoggedUser = useAuthStore((store) => store.setLoggedUser);
+   const loadCatalogStructures = useCatalogsStore((store) => store.loadCatalogStructures);
    const colorMode = useUIStore((store) => store.colorMode);
    const auth = getAuth();
 
@@ -27,6 +29,7 @@ function App() {
               }
             : null;
 
+         if (isUserLogged) loadCatalogStructures(loggedUser?.uid!);
          setLoggedUser(loggedUser);
       });
    }, []);

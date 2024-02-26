@@ -17,13 +17,26 @@ import ToggleTheme from './components/ToggleTheme';
 import UserInformation from './components/UserInformation';
 import MenuIcon from '@mui/icons-material/Menu';
 import { ChevronLeft, Logout } from '@mui/icons-material';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import { PropsWithChildren, useState } from 'react';
+import { useCatalogsStore } from '../stores/catalogs-store';
+import { useUIStore } from '../stores/ui-store';
 
 const Layout = ({ children }: PropsWithChildren) => {
    const [open, setOpen] = useState(false);
-   const signOutFromGoogle = useAuthStore((store) => store.signOutFromGoogle);
+   const signOut = useAuthStore((store) => store.signOut);
+   const catalogStructures = useCatalogsStore((store) => store.catalogsStructures);
+
+   const resetAuth = useAuthStore((store) => store.reset);
+   const resetCatalog = useCatalogsStore((store) => store.reset);
+   const resetUI = useUIStore((store) => store.reset);
+
+   const handleLogout = () => {
+      signOut();
+      resetAuth();
+      resetCatalog();
+      resetUI();
+   };
 
    const toggleDrawer = () => {
       setOpen((isOpened) => !isOpened);
@@ -39,8 +52,8 @@ const Layout = ({ children }: PropsWithChildren) => {
             </Box>
             <Divider />
             <List>
-               {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                  <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+               {catalogStructures.map(({ catalogName }) => (
+                  <ListItem key={catalogName} disablePadding sx={{ display: 'block' }}>
                      <ListItemButton
                         sx={{
                            minHeight: 48,
@@ -53,39 +66,16 @@ const Layout = ({ children }: PropsWithChildren) => {
                               mr: open ? 3 : 'auto',
                               justifyContent: 'center'
                            }}>
-                           {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                           <MailIcon />
                         </ListItemIcon>
-                        <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                        <ListItemText primary={catalogName} sx={{ opacity: open ? 1 : 0 }} />
                      </ListItemButton>
                   </ListItem>
                ))}
             </List>
             <Divider />
             <List>
-               {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                  <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-                     <ListItemButton
-                        sx={{
-                           minHeight: 48,
-                           justifyContent: open ? 'initial' : 'center',
-                           px: 7
-                        }}>
-                        <ListItemIcon
-                           sx={{
-                              minWidth: 0,
-                              mr: open ? 3 : 'auto',
-                              justifyContent: 'center'
-                           }}>
-                           {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                        </ListItemIcon>
-                        <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-                     </ListItemButton>
-                  </ListItem>
-               ))}
-            </List>
-            <Divider />
-            <List>
-               <ListItem onClick={signOutFromGoogle} disablePadding sx={{ display: 'block' }}>
+               <ListItem onClick={handleLogout} disablePadding sx={{ display: 'block' }}>
                   <ListItemButton
                      sx={{
                         minHeight: 48,

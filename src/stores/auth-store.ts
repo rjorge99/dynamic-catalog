@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import {
    signInWithGoogle,
    signInWithFacebook,
-   signOutFromGoogle,
+   signOutService,
    signInWithEmailPassword,
    createUserEmailAndPassword
 } from '../services/firebase-services';
@@ -15,27 +15,33 @@ interface LoggedUser {
    photoURL: string;
 }
 
-interface AuthState {
+type State = {
    loggedUser: LoggedUser | null;
+};
+
+type Actions = {
    setLoggedUser: (loggedUser: LoggedUser | null) => void;
    signInWithGoogle: () => Promise<UserCredential>;
    signInWithFacebook: () => Promise<UserCredential>;
-   signOutFromGoogle: () => void;
+   signOut: () => void;
    signInWithEmailPassword: (email: string, password: string) => void;
    createUserEmailAndPassword: (displayName: string, email: string, password: string) => void;
-}
+   reset: () => void;
+};
 
-export const useAuthStore = create<AuthState>()(
+const initialState = {
+   loggedUser: null
+};
+
+export const useAuthStore = create<State & Actions>()(
    devtools((set) => ({
       loggedUser: null,
       setLoggedUser: (loggedUser: LoggedUser | null) => set({ loggedUser }),
       signInWithGoogle,
       signInWithFacebook,
-      signOutFromGoogle,
+      signOut: signOutService,
       signInWithEmailPassword,
-      createUserEmailAndPassword
+      createUserEmailAndPassword,
+      reset: () => set(initialState)
    }))
 );
-
-declare const window: any;
-window.store = useAuthStore;
