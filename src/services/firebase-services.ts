@@ -6,7 +6,7 @@ import {
    signInWithPopup,
    updateProfile
 } from 'firebase/auth';
-import { facebookAuthProvider, googleAuthProvider } from '../firebase/firebase-config';
+import { googleAuthProvider } from '../firebase/firebase-config';
 import { notify } from '../utils/notifier';
 const auth = getAuth();
 
@@ -32,8 +32,4 @@ export const signOutService = async () => {
 
 export const signInWithGoogle = () => {
    return signInWithPopup(auth, googleAuthProvider);
-};
-
-export const signInWithFacebook = () => {
-   return signInWithPopup(auth, facebookAuthProvider);
 };

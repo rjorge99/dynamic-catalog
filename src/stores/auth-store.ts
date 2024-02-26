@@ -1,7 +1,6 @@
 import { create } from 'zustand';
 import {
    signInWithGoogle,
-   signInWithFacebook,
    signOutService,
    signInWithEmailPassword,
    createUserEmailAndPassword
@@ -22,7 +21,6 @@ type State = {
 type Actions = {
    setLoggedUser: (loggedUser: LoggedUser | null) => void;
    signInWithGoogle: () => Promise<UserCredential>;
-   signInWithFacebook: () => Promise<UserCredential>;
    signOut: () => void;
    signInWithEmailPassword: (email: string, password: string) => void;
    createUserEmailAndPassword: (displayName: string, email: string, password: string) => void;
@@ -38,7 +36,6 @@ export const useAuthStore = create<State & Actions>()(
       loggedUser: null,
       setLoggedUser: (loggedUser: LoggedUser | null) => set({ loggedUser }),
       signInWithGoogle,
-      signInWithFacebook,
       signOut: signOutService,
       signInWithEmailPassword,
       createUserEmailAndPassword,
