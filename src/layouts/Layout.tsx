@@ -18,11 +18,12 @@ import UserInformation from './components/UserInformation';
 import MenuIcon from '@mui/icons-material/Menu';
 import { ChevronLeft, Logout } from '@mui/icons-material';
 import MailIcon from '@mui/icons-material/Mail';
-import { PropsWithChildren, useState } from 'react';
+import { useState } from 'react';
 import { useCatalogsStore } from '../stores/catalogs-store';
 import { useUIStore } from '../stores/ui-store';
+import { Outlet } from 'react-router-dom';
 
-const Layout = ({ children }: PropsWithChildren) => {
+const Layout = () => {
    const [open, setOpen] = useState(false);
    const signOut = useAuthStore((store) => store.signOut);
    const catalogStructures = useCatalogsStore((store) => store.catalogsStructures);
@@ -109,7 +110,9 @@ const Layout = ({ children }: PropsWithChildren) => {
                </Box>
             </Toolbar>
          </AppBar>
-         <Box padding={4}>{children}</Box>
+         <Box padding={4}>
+            <Outlet />
+         </Box>
       </Box>
    );
 };
