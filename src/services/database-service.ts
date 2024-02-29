@@ -1,6 +1,6 @@
 import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../firebase/firebase-config';
-import { notify } from '../utils/notifier';
+import { MessageType, notify } from '../utils/notifier';
 import { CatalogStructure } from '../stores/catalogs-store';
 
 export const createCatalogStructureService = async (
@@ -15,7 +15,7 @@ export const createCatalogStructureService = async (
          catalogFields
       });
    } catch (error) {
-      notify('An error has occurred');
+      notify('An error has occurred', MessageType.Error);
    }
 };
 
@@ -26,7 +26,7 @@ export const getCatalogStrcutureService = async (uid: string): Promise<CatalogSt
       const catalogsStructures = querySnapshot.docs.map((doc) => doc.data() as CatalogStructure);
       return catalogsStructures;
    } catch (error) {
-      notify('An error has occurred');
+      notify('An error has occurred', MessageType.Error);
       return null;
    }
 };

@@ -6,6 +6,9 @@ import { useMemo } from 'react';
 import { useUIStore } from './stores/ui-store';
 import { Outlet } from 'react-router-dom';
 import { useCatalogsStore } from './stores/catalogs-store';
+import { ToastContainer } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 function CatalogsApp() {
    const setLoggedUser = useAuthStore((store) => store.setLoggedUser);
@@ -43,6 +46,17 @@ function CatalogsApp() {
             <CssBaseline />
             <Outlet />
          </Box>
+         <ToastContainer
+            position='bottom-right'
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            draggable
+            pauseOnHover={false}
+            theme={colorMode}
+         />
       </ThemeProvider>
    );
 }
