@@ -1,4 +1,4 @@
-import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
+import { Box, CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { useAuthStore } from './stores/auth-store';
 import { useEffect } from 'react';
@@ -39,8 +39,10 @@ function CatalogsApp() {
 
    return (
       <ThemeProvider theme={currentTheme}>
-         <CssBaseline />
-         <Outlet />
+         <Box height='100%'>
+            <CssBaseline />
+            <Outlet />
+         </Box>
       </ThemeProvider>
    );
 }

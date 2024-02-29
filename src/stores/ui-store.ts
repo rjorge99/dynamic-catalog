@@ -3,20 +3,24 @@ import { devtools } from 'zustand/middleware';
 
 type State = {
    colorMode: 'light' | 'dark';
+   isDrawerOpen: boolean;
 };
 
 type Actions = {
    toggleColorMode: () => void;
    reset: () => void;
+   toggleDrawer: () => void;
 };
 
 const initialState = {
-   colorMode: localStorage.getItem('colorMode') ? (localStorage.getItem('colorMode') as 'light' | 'dark') : 'light'
+   colorMode: localStorage.getItem('colorMode') ? (localStorage.getItem('colorMode') as 'light' | 'dark') : 'light',
+   isDrawOpen: false
 };
 
 export const useUIStore = create<State & Actions>()(
    devtools((set, get) => ({
       colorMode: localStorage.getItem('colorMode') ? (localStorage.getItem('colorMode') as 'light' | 'dark') : 'light',
+      isDrawerOpen: false,
       toggleColorMode: () => {
          const colorMode = get().colorMode === 'light' ? 'dark' : 'light';
          localStorage.setItem('colorMode', colorMode);
@@ -25,6 +29,7 @@ export const useUIStore = create<State & Actions>()(
             colorMode
          });
       },
-      reset: () => set(initialState)
+      reset: () => set(initialState),
+      toggleDrawer: () => set((state) => ({ isDrawerOpen: !state.isDrawerOpen }))
    }))
 );
