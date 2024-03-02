@@ -26,7 +26,6 @@ const GoogleIcon = () => {
 };
 
 const Login = () => {
-   console.log('Login');
    const signInWithGoogle = useAuthStore((store) => store.signInWithGoogle);
    const signInWithEmailPassword = useAuthStore((store) => store.signInWithEmailPassword);
 

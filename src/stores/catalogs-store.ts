@@ -1,11 +1,17 @@
 import { create } from 'zustand';
-import { createCatalogStructureService, getCatalogStrcutureService } from '../services/database-service';
+import {
+   createCatalogStructureService,
+   deleteCatalogStructureService,
+   getCatalogStrcutureService
+} from '../services/database-service';
 import { devtools } from 'zustand/middleware';
+import { CatalogField } from '../views/catalogs/CatalogForm';
 
 export interface CatalogStructure {
+   catalogId: string;
    catalogName: string;
    userId: string;
-   catalogFields: { [key: string]: string };
+   catalogFields: CatalogField[];
 }
 
 type State = {
@@ -14,7 +20,8 @@ type State = {
 
 type Actions = {
    setCatalogsStructures: (catalogs: CatalogStructure[]) => void;
-   createCatalogStructure: (uid: string, catalogName: string, catalogFields: { [key: string]: string }) => void;
+   createCatalogStructure: (uid: string, catalogName: string, catalogFields: CatalogField[]) => void;
+   deleteCatalog: (catalogId: string) => void;
    loadCatalogStructures: (uid: string) => void;
    reset: () => void;
 };
@@ -31,12 +38,18 @@ export const useCatalogsStore = create<State & Actions>()(
          const catalogsStructures = await getCatalogStrcutureService(uid);
          set({ catalogsStructures: catalogsStructures || [] });
       },
-      createCatalogStructure: async (uid: string, catalogName: string, catalogFields: { [key: string]: string }) => {
+      createCatalogStructure: async (uid: string, catalogName: string, catalogFields: CatalogField[]) => {
          await createCatalogStructureService(uid, catalogName, catalogFields);
          set((state: any) => ({
             catalogsStructures: [...state.catalogsStructures, { catalogName, userId: uid, catalogFields }]
          }));
       },
-      reset: () => set(initialState)
+      reset: () => set(initialState),
+      deleteCatalog: async (catalogId: string) => {
+         await deleteCatalogStructureService(catalogId);
+         set((state: any) => ({
+            catalogsStructures: state.catalogsStructures.filter((catalog: CatalogStructure) => catalog.catalogId !== catalogId)
+         }));
+      }
    }))
 );

@@ -8,8 +8,9 @@ import DashBoard from './views/DashBoard.tsx';
 import PublicRoutes from './routes/public-routes.tsx';
 import Login from './views/auth/Login.tsx';
 import Register from './views/auth/Register.tsx';
-import Catalogs from './views/Catalogs.tsx';
 import NotFound from './views/NotFound.tsx';
+import CatalogsList from './views/catalogs/CatalogsList.tsx';
+import CatalogForm from './views/catalogs/CatalogForm.tsx';
 
 const router = createBrowserRouter(
    createRoutesFromElements(
@@ -21,7 +22,8 @@ const router = createBrowserRouter(
                   <Routes>
                      <Route element={<Layout />}>
                         <Route index element={<DashBoard />} />
-                        <Route path='/catalogs' element={<Catalogs />} />
+                        <Route path='/catalogs' element={<CatalogsList />} />
+                        <Route path='/catalogs/:catalogId' element={<CatalogForm />} />
                         <Route path='*' element={<NotFound />} />
                      </Route>
                   </Routes>
