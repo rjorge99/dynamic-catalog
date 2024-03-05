@@ -6,7 +6,6 @@ import {
    getCatalogStructureByIdService,
    updateCatalogStructureByIdService
 } from '../services/database-service';
-import { devtools } from 'zustand/middleware';
 import { CatalogField, CatalogStructure } from '../types/types';
 
 type State = {
@@ -27,48 +26,46 @@ const initialState = {
    catalogsStructures: []
 };
 
-export const useCatalogsStore = create<State & Actions>()(
-   devtools((set) => ({
-      catalogsStructures: [],
-      setCatalogsStructures: (catalogsStructures: CatalogStructure[]) => set({ catalogsStructures }),
-      loadCatalogStructures: async (uid: string) => {
-         const catalogsStructures = await getCatalogStrcutureService(uid);
-         set({ catalogsStructures: catalogsStructures || [] });
-      },
-      createCatalogStructure: async (uid: string, catalogName: string, catalogFields: CatalogField[]) => {
-         const catalogId = await createCatalogStructureService(uid, catalogName, catalogFields);
+export const useCatalogsStore = create<State & Actions>()((set) => ({
+   catalogsStructures: [],
+   setCatalogsStructures: (catalogsStructures: CatalogStructure[]) => set({ catalogsStructures }),
+   loadCatalogStructures: async (uid: string) => {
+      const catalogsStructures = await getCatalogStrcutureService(uid);
+      set({ catalogsStructures: catalogsStructures || [] });
+   },
+   createCatalogStructure: async (uid: string, catalogName: string, catalogFields: CatalogField[]) => {
+      const catalogId = await createCatalogStructureService(uid, catalogName, catalogFields);
 
-         if (catalogId)
-            set((state: any) => ({
-               catalogsStructures: [...state.catalogsStructures, { catalogName, userId: uid, catalogFields, catalogId }]
-            }));
-      },
-      reset: () => set(initialState),
-      deleteCatalog: async (catalogId: string) => {
-         await deleteCatalogStructureService(catalogId);
-         set((state: any) => ({
-            catalogsStructures: state.catalogsStructures.filter((catalog: CatalogStructure) => catalog.catalogId !== catalogId)
+      if (catalogId)
+         set((state) => ({
+            catalogsStructures: [...state.catalogsStructures, { catalogName, userId: uid, catalogFields, catalogId }]
          }));
-      },
-      getCatalogStructureById: async (catalogId: string): Promise<CatalogStructure | null> => {
-         const catalog = await getCatalogStructureByIdService(catalogId);
-         if (catalog) return catalog;
-         else return null;
-      },
-      updateCatalogStructureById: async (catalogId: string, uid: string, catalogName: string, catalogFields: CatalogField[]) => {
-         await updateCatalogStructureByIdService(catalogId, uid, catalogName, catalogFields);
-         set((state: any) => ({
-            catalogsStructures: state.catalogsStructures.map((catalog: CatalogStructure) => {
-               if (catalog.catalogId === catalogId) {
-                  return {
-                     ...catalog,
-                     catalogName,
-                     catalogFields
-                  };
-               }
-               return catalog;
-            })
-         }));
-      }
-   }))
-);
+   },
+   reset: () => set(initialState),
+   deleteCatalog: async (catalogId: string) => {
+      await deleteCatalogStructureService(catalogId);
+      set((state) => ({
+         catalogsStructures: state.catalogsStructures.filter((catalog: CatalogStructure) => catalog.catalogId !== catalogId)
+      }));
+   },
+   getCatalogStructureById: async (catalogId: string): Promise<CatalogStructure | null> => {
+      const catalog = await getCatalogStructureByIdService(catalogId);
+      if (catalog) return catalog;
+      else return null;
+   },
+   updateCatalogStructureById: async (catalogId: string, uid: string, catalogName: string, catalogFields: CatalogField[]) => {
+      await updateCatalogStructureByIdService(catalogId, uid, catalogName, catalogFields);
+      set((state) => ({
+         catalogsStructures: state.catalogsStructures.map((catalog: CatalogStructure) => {
+            if (catalog.catalogId === catalogId) {
+               return {
+                  ...catalog,
+                  catalogName,
+                  catalogFields
+               };
+            }
+            return catalog;
+         })
+      }));
+   }
+}));

@@ -25,16 +25,16 @@ const MenuList = () => {
       <>
          <List>
             {catalogStructures.map(({ catalogName }) => (
-               <ListElement text={catalogName} key={catalogName} Icon={Mail} />
+               <ListElement text={catalogName} key={catalogName} Icon={<Mail />} />
             ))}
          </List>
          <Divider />
          <List>
-            <ListElement text='Catalogs' Icon={GridView} onClick={() => navigate('/catalogs')} />
+            <ListElement text='Catalogs' Icon={<GridView />} onClick={() => navigate('/catalogs')} />
          </List>
          <Divider />
          <List>
-            <ListElement text='Logout' onClick={handleLogout} Icon={Logout} />
+            <ListElement text='Logout' onClick={handleLogout} Icon={<Logout />} />
          </List>
       </>
    );

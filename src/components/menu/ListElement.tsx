@@ -1,10 +1,10 @@
-import { ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import { ListItem, ListItemButton, ListItemIcon, ListItemText, SvgIconProps } from '@mui/material';
 import { useUIStore } from '../../stores/ui-store';
 
 interface Props {
    text: string;
    onClick?: () => void;
-   Icon: any; // todo: define
+   Icon: React.ReactElement<SvgIconProps>;
 }
 
 const ListElement = ({ text, onClick, Icon }: Props) => {
@@ -29,7 +29,7 @@ const ListElement = ({ text, onClick, Icon }: Props) => {
                   mr: isDrawOpen ? 3 : 'auto',
                   justifyContent: 'center'
                }}>
-               <Icon />
+               {Icon}
             </ListItemIcon>
             <ListItemText primary={text} sx={{ opacity: isDrawOpen ? 1 : 0 }} />
          </ListItemButton>

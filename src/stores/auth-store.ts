@@ -6,7 +6,6 @@ import {
    createUserEmailAndPassword
 } from '../services/firebase-services';
 import { UserCredential } from 'firebase/auth';
-import { devtools } from 'zustand/middleware';
 
 interface LoggedUser {
    uid: string;
@@ -31,14 +30,12 @@ const initialState = {
    loggedUser: null
 };
 
-export const useAuthStore = create<State & Actions>()(
-   devtools((set) => ({
-      loggedUser: null,
-      setLoggedUser: (loggedUser: LoggedUser | null) => set({ loggedUser }),
-      signInWithGoogle,
-      signOut: signOutService,
-      signInWithEmailPassword,
-      createUserEmailAndPassword,
-      reset: () => set(initialState)
-   }))
-);
+export const useAuthStore = create<State & Actions>()((set) => ({
+   loggedUser: null,
+   setLoggedUser: (loggedUser: LoggedUser | null) => set({ loggedUser }),
+   signInWithGoogle,
+   signOut: signOutService,
+   signInWithEmailPassword,
+   createUserEmailAndPassword,
+   reset: () => set(initialState)
+}));
