@@ -17,7 +17,7 @@ const Field = ({ onDelete, onChange, catalogField }: Props) => {
 
    useEffect(() => {
       onChange(id, nameFieldDebounced, type);
-   }, [nameFieldDebounced]);
+   }, [nameFieldDebounced, id, type, onChange]);
 
    return (
       <Card

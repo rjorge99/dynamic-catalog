@@ -35,7 +35,7 @@ const CatalogForm = () => {
          setCatalogFields(catalog!.catalogFields);
       }
       getCatalogStructure();
-   }, []);
+   }, [catalogId, getCatalogStructureById]);
 
    const handleSaveCatalog = async () => {
       if (catalogName.trim() === '') return notify('Catalog name is required', MessageType.Error);

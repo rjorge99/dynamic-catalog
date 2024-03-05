@@ -27,10 +27,10 @@ function CatalogsApp() {
               }
             : null;
 
-         if (isUserLogged) loadCatalogStructures(loggedUser?.uid!);
+         if (isUserLogged && loggedUser) loadCatalogStructures(loggedUser.uid);
          setLoggedUser(loggedUser);
       });
-   }, []);
+   }, [auth, loadCatalogStructures, setLoggedUser]);
 
    const currentTheme = useMemo(() => {
       return createTheme({
