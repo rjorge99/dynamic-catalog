@@ -8,7 +8,7 @@ import {
    useMediaQuery,
    useTheme
 } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { memo } from 'react';
 
 interface Props {
    message: string;
@@ -18,17 +18,12 @@ interface Props {
 }
 
 const ConfirmationDialog = ({ message, onAccept, onClose, isOpen }: Props) => {
-   const [open, setOpen] = useState(isOpen);
    const theme = useTheme();
    const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
-   useEffect(() => {
-      setOpen(isOpen);
-   }, [isOpen]);
-
    return (
       <>
-         <Dialog fullScreen={fullScreen} open={open} onClose={onClose} aria-labelledby='responsive-dialog-title'>
+         <Dialog fullScreen={fullScreen} open={isOpen} onClose={onClose} aria-labelledby='responsive-dialog-title'>
             <DialogTitle id='responsive-dialog-title'>Confirm</DialogTitle>
             <DialogContent>
                <DialogContentText>{message}</DialogContentText>
