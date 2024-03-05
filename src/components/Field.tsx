@@ -1,12 +1,8 @@
-import { Box, Button, MenuItem, Select, TextField } from '@mui/material';
+import { Box, Button, Card, CardContent, MenuItem, Select, TextField } from '@mui/material';
+import { CatalogField, FIELD_TYPES } from '../types/types';
+import { useDebounce } from '../hooks/useDebounce';
+import { useEffect, useState } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { CatalogField } from '../views/catalogs/CatalogForm';
-
-const FIELD_TYPES = {
-   text: 'Text',
-   number: 'Number',
-   date: 'Date'
-};
 
 interface Props {
    onDelete: (key: string) => void;
@@ -14,28 +10,52 @@ interface Props {
    catalogField: CatalogField;
 }
 
-const Field = ({ onDelete, onChange, catalogField: { id, name, type } }: Props) => {
+const Field = ({ onDelete, onChange, catalogField }: Props) => {
+   const { id, name, type } = catalogField;
+   const [nameField, setNameField] = useState(name);
+   const nameFieldDebounced = useDebounce<string>(nameField, 300);
+
+   useEffect(() => {
+      onChange(id, nameFieldDebounced, type);
+   }, [nameFieldDebounced]);
+
    return (
-      <Box display='flex' gap={2} width='100%'>
-         <TextField sx={{ flexGrow: 1 }} size='small' value={name} onChange={(e) => onChange(id, e.target.value, type)} />
-         <Select
-            size='small'
-            labelId='demo-simple-select-label'
-            id='demo-simple-select'
-            onChange={(e) => onChange(id, name, e.target.value)}
-            value={type}
-            label='Age'
-            sx={{ minWidth: 120 }}>
-            {Object.entries(FIELD_TYPES).map(([key, value]) => (
-               <MenuItem key={key} value={key}>
-                  {value}
-               </MenuItem>
-            ))}
-         </Select>
-         <Button variant='contained' color='error' startIcon={<DeleteIcon />} onClick={() => onDelete(id)}>
-            Delete
-         </Button>
-      </Box>
+      <Card
+         sx={{
+            width: {
+               xs: '100%',
+               sm: 800
+            }
+         }}
+         className='catalog-field'>
+         <CardContent>
+            <Box
+               display='flex'
+               gap={1}
+               width='100%'
+               flexDirection='column'
+               sx={{
+                  flexDirection: { xs: 'column', sm: 'row' }
+               }}>
+               <TextField sx={{ flexGrow: 1 }} size='small' value={nameField} onChange={(e) => setNameField(e.target.value)} />
+               <Select
+                  size='small'
+                  onChange={(e) => onChange(id, name, e.target.value)}
+                  value={type}
+                  label='Field'
+                  sx={{ minWidth: 160 }}>
+                  {Object.entries(FIELD_TYPES).map(([key, value]) => (
+                     <MenuItem key={key} value={key}>
+                        {value}
+                     </MenuItem>
+                  ))}
+               </Select>
+               <Button variant='contained' color='error' startIcon={<DeleteIcon />} onClick={() => onDelete(id)}>
+                  Delete
+               </Button>
+            </Box>
+         </CardContent>
+      </Card>
    );
 };
 

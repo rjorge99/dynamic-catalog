@@ -1,16 +1,16 @@
 import ReactDOM from 'react-dom/client';
-import CatalogsApp from './CatalogsApp.tsx';
-import './index.css';
 import { Navigate, Route, RouterProvider, Routes, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
-import PrivateRoutes from './routes/private-routes.tsx';
-import Layout from './layouts/Layout.tsx';
-import DashBoard from './views/DashBoard.tsx';
-import PublicRoutes from './routes/public-routes.tsx';
-import Login from './views/auth/Login.tsx';
-import Register from './views/auth/Register.tsx';
-import NotFound from './views/NotFound.tsx';
-import CatalogsList from './views/catalogs/CatalogsList.tsx';
+import './index.css';
 import CatalogForm from './views/catalogs/CatalogForm.tsx';
+import CatalogsApp from './CatalogsApp.tsx';
+import CatalogsList from './views/catalogs/CatalogsList.tsx';
+import DashBoard from './views/DashBoard.tsx';
+import Layout from './layouts/Layout.tsx';
+import Login from './views/auth/Login.tsx';
+import NotFound from './views/NotFound.tsx';
+import PrivateRoutes from './routes/private-routes.tsx';
+import PublicRoutes from './routes/public-routes.tsx';
+import Register from './views/auth/Register.tsx';
 
 const router = createBrowserRouter(
    createRoutesFromElements(

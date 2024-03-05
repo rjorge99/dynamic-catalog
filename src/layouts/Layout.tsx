@@ -7,12 +7,12 @@ import { useUIStore } from '../stores/ui-store';
 import HeaderBar from './components/HeaderBar';
 
 const Layout = () => {
-   const isDrawOpen = useUIStore((state) => state.isDrawerOpen);
+   const isDrawerOpen = useUIStore((state) => state.isDrawerOpen);
    const toggleDrawer = useUIStore((state) => state.toggleDrawer);
 
    return (
       <Box height='100%'>
-         <Drawer open={isDrawOpen} onClose={toggleDrawer}>
+         <Drawer open={isDrawerOpen} onClose={toggleDrawer}>
             <Box>
                <IconButton onClick={toggleDrawer}>
                   <ChevronLeft />

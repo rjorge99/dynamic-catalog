@@ -4,17 +4,29 @@ import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import { useNavigate } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import ConfirmationDialog from '../../components/commons/Confirmation';
+import { useRef, useState } from 'react';
 
 const CatalogsList = () => {
    const catalogsStructures = useCatalogsStore((store) => store.catalogsStructures);
+   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
    const deleteCatalog = useCatalogsStore((store) => store.deleteCatalog);
+   const catalogIdRef = useRef('');
    const navigate = useNavigate();
 
    const handleDeleteCatalog = (catalogId: string) => async () => {
-      await deleteCatalog(catalogId);
+      catalogIdRef.current = catalogId;
+      setIsDeleteDialogOpen(true);
+   };
+
+   const handleConfirmDeleteCatalog = async () => {
+      await deleteCatalog(catalogIdRef.current);
       navigate('/');
    };
 
+   const handleCloseDialog = () => {
+      setIsDeleteDialogOpen(false);
+   };
    return (
       <>
          <TableContainer component={Paper} sx={{ maxWidth: { xs: '100%', sm: 900 } }}>
@@ -62,6 +74,13 @@ const CatalogsList = () => {
             onClick={() => navigate('/catalogs/new')}>
             New Catalog
          </Button>
+
+         <ConfirmationDialog
+            message='Are you sure you want to delete this catalog?'
+            isOpen={isDeleteDialogOpen}
+            onAccept={handleConfirmDeleteCatalog}
+            onClose={handleCloseDialog}
+         />
       </>
    );
 };

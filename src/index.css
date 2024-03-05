@@ -2,3 +2,14 @@ body,
 #root {
    height: 100vh;
 }
+
+/* TODO: Agregar en clase especifica para fields ? */
+ul,
+li {
+   list-style-type: none;
+   padding: 0;
+   margin: 0;
+   width: 100%;
+   margin-bottom: 10px;
+   cursor: grab;
+}

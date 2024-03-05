@@ -5,14 +5,7 @@ import {
    getCatalogStrcutureService
 } from '../services/database-service';
 import { devtools } from 'zustand/middleware';
-import { CatalogField } from '../views/catalogs/CatalogForm';
-
-export interface CatalogStructure {
-   catalogId: string;
-   catalogName: string;
-   userId: string;
-   catalogFields: CatalogField[];
-}
+import { CatalogField, CatalogStructure } from '../types/types';
 
 type State = {
    catalogsStructures: CatalogStructure[];
@@ -39,10 +32,12 @@ export const useCatalogsStore = create<State & Actions>()(
          set({ catalogsStructures: catalogsStructures || [] });
       },
       createCatalogStructure: async (uid: string, catalogName: string, catalogFields: CatalogField[]) => {
-         await createCatalogStructureService(uid, catalogName, catalogFields);
-         set((state: any) => ({
-            catalogsStructures: [...state.catalogsStructures, { catalogName, userId: uid, catalogFields }]
-         }));
+         const catalogId = await createCatalogStructureService(uid, catalogName, catalogFields);
+
+         if (catalogId)
+            set((state: any) => ({
+               catalogsStructures: [...state.catalogsStructures, { catalogName, userId: uid, catalogFields, catalogId }]
+            }));
       },
       reset: () => set(initialState),
       deleteCatalog: async (catalogId: string) => {
