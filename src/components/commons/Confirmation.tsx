@@ -8,7 +8,6 @@ import {
    useMediaQuery,
    useTheme
 } from '@mui/material';
-import { memo } from 'react';
 
 interface Props {
    message: string;

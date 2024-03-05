@@ -1,11 +1,11 @@
 import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Button, Box } from '@mui/material';
 import { useCatalogsStore } from '../../stores/catalogs-store';
-import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import { useNavigate } from 'react-router-dom';
+import { useRef, useState } from 'react';
+import ConfirmationDialog from '../../components/commons/Confirmation';
+import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import ConfirmationDialog from '../../components/commons/Confirmation';
-import { useRef, useState } from 'react';
 
 const CatalogsList = () => {
    const catalogsStructures = useCatalogsStore((store) => store.catalogsStructures);
