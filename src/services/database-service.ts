@@ -1,4 +1,4 @@
-import { addDoc, collection, deleteDoc, getDocs, query, where } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, getDocs, query, updateDoc, where } from 'firebase/firestore';
 import { db } from '../firebase/firebase-config';
 import { MessageType, notify } from '../utils/notifier';
 import { CatalogField, CatalogStructure } from '../types/types';
@@ -35,14 +35,12 @@ export const updateCatalogStructureByIdService = async (
       const q = query(collection(db, 'catalogs_structure'), where('catalogId', '==', catalogId));
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach(async (doc) => {
-         await deleteDoc(doc.ref);
-      });
-
-      await addDoc(collection(db, 'catalogs_structure'), {
-         catalogId,
-         userId: uid,
-         catalogName,
-         catalogFields
+         await updateDoc(doc.ref, {
+            catalogId,
+            userId: uid,
+            catalogName,
+            catalogFields
+         });
       });
 
       notify('Catalog updated successfully', MessageType.Success);
@@ -68,9 +66,8 @@ export const deleteCatalogStructureService = async (catalogId: string) => {
    try {
       const q = query(collection(db, 'catalogs_structure'), where('catalogId', '==', catalogId));
       const querySnapshot = await getDocs(q);
-      querySnapshot.forEach(async (doc) => {
-         await deleteDoc(doc.ref);
-      });
+
+      if (!querySnapshot.empty) await deleteDoc(querySnapshot.docs[0].ref);
 
       notify('Catalog deleted successfully   ', MessageType.Success);
    } catch (error) {

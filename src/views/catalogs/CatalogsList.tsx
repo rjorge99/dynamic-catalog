@@ -53,7 +53,7 @@ const CatalogsList = () => {
                                  sm: 'row'
                               }
                            }}>
-                           <Typography variant='body1' sx={{ marginBottom: { xs: 1, sm: 0 } }}>
+                           <Typography width='100%' variant='body1' sx={{ marginBottom: { xs: 1, sm: 0 } }}>
                               {catalog.catalogName}
                            </Typography>
                            <Box display='flex' width='100%' gap={1} sx={{ justifyContent: 'flex-end' }}>
