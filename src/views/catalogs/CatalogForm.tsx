@@ -39,7 +39,7 @@ const CatalogForm = () => {
 
    const handleSaveCatalog = async () => {
       if (catalogName.trim() === '') return notify('Catalog name is required', MessageType.Error);
-      if (catalogFields.filter((field) => field.name.trim() === '').length > 0)
+      if (catalogFields.length === 0 || catalogFields.filter((field) => field.name.trim() === '').length > 0)
          return notify('All fields must have a name', MessageType.Error);
 
       if (catalogId === 'new') await createCatalogStructure(loggedUser!.uid, catalogName, catalogFields);
