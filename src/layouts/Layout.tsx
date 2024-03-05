@@ -22,7 +22,16 @@ const Layout = () => {
             <MenuList />
          </Drawer>
          <HeaderBar />
-         <Box padding={4} height='100%' paddingTop={13}>
+         <Box
+            paddingBlock={4}
+            sx={{
+               paddingInline: {
+                  xs: 2,
+                  sm: 4
+               }
+            }}
+            height='100%'
+            paddingTop={13}>
             <Outlet />
          </Box>
       </Box>

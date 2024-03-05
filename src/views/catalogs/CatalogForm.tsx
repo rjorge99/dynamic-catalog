@@ -40,7 +40,15 @@ const CatalogForm = () => {
 
    return (
       <>
-         <Box display='flex' gap={5}>
+         <Box
+            display='flex'
+            gap={2}
+            sx={{
+               flexDirection: {
+                  xs: 'column',
+                  sm: 'row'
+               }
+            }}>
             <TextField
                sx={{ flexGrow: 1 }}
                value={catalogName}
@@ -54,7 +62,7 @@ const CatalogForm = () => {
                Add Field
             </Button>
          </Box>
-         <Box p={2} sx={{ mt: 5 }} display='flex' gap={2} flexDirection='column' alignItems='flex-start'>
+         <Box sx={{ mt: 5 }} display='flex' gap={2} flexDirection='column' alignItems='flex-start'>
             <Reorder.Group axis='y' values={catalogFields} onReorder={setCatalogFields}>
                {catalogFields.map((field) => (
                   <Reorder.Item key={field.id} value={field}>
