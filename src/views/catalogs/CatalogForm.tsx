@@ -8,10 +8,11 @@ import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import Field from '../../components/Field';
 import { CatalogField } from '../../types/types';
 import { Reorder } from 'framer-motion';
+import { MessageType, notify } from '../../utils/notifier';
 
 const CatalogForm = () => {
    const navigate = useNavigate();
-   const [catalogName, setCatalogName] = useState('New Catalog');
+   const [catalogName, setCatalogName] = useState('');
    const [catalogFields, setCatalogFields] = useState<CatalogField[]>([]);
    const loggedUser = useAuthStore((store) => store.loggedUser);
    const createCatalogStructure = useCatalogsStore((store) => store.createCatalogStructure);
@@ -21,6 +22,10 @@ const CatalogForm = () => {
    };
 
    const handleSaveCatalog = async () => {
+      if (catalogName.trim() === '') return notify('Catalog name is required', MessageType.Error);
+      if (catalogFields.filter((field) => field.name.trim() === '').length > 0)
+         return notify('All fields must have a name', MessageType.Error);
+
       await createCatalogStructure(loggedUser!.uid, catalogName, catalogFields);
       navigate('/catalogs');
    };
@@ -43,6 +48,7 @@ const CatalogForm = () => {
                label='Catalog Name'
                placeholder='Catalog'
                variant='standard'
+               autoFocus
             />
             <Button variant='contained' size='large' color='secondary' startIcon={<ControlPointIcon />} onClick={handleAddField}>
                Add Field
