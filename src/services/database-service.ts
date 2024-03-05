@@ -24,9 +24,48 @@ export const createCatalogStructureService = async (
    }
 };
 
+// TODO: Busca si realmente se hace de esta manera
+export const updateCatalogStructureByIdService = async (
+   catalogId: string,
+   uid: string,
+   catalogName: string,
+   catalogFields: CatalogField[]
+) => {
+   try {
+      const q = query(collection(db, 'catalogs_structure'), where('catalogId', '==', catalogId));
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach(async (doc) => {
+         await deleteDoc(doc.ref);
+      });
+
+      await addDoc(collection(db, 'catalogs_structure'), {
+         catalogId,
+         userId: uid,
+         catalogName,
+         catalogFields
+      });
+
+      notify('Catalog updated successfully', MessageType.Success);
+   } catch (error) {
+      notify('An error has occurred', MessageType.Error);
+      return null;
+   }
+};
+
+export const getCatalogStructureByIdService = async (catalogId: string): Promise<CatalogStructure | null> => {
+   try {
+      const q = query(collection(db, 'catalogs_structure'), where('catalogId', '==', catalogId));
+      const querySnapshot = await getDocs(q);
+      const catalogsStructures = querySnapshot.docs.map((doc) => doc.data() as CatalogStructure);
+      return catalogsStructures[0];
+   } catch (error) {
+      notify('An error has occurred', MessageType.Error);
+      return null;
+   }
+};
+
 export const deleteCatalogStructureService = async (catalogId: string) => {
    try {
-      console.log('dfsdf');
       const q = query(collection(db, 'catalogs_structure'), where('catalogId', '==', catalogId));
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach(async (doc) => {

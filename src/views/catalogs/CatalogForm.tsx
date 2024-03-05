@@ -1,8 +1,8 @@
 import { Box, Button, TextField } from '@mui/material';
 import { useAuthStore } from '../../stores/auth-store';
 import { useCatalogsStore } from '../../stores/catalogs-store';
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import Field from '../../components/Field';
@@ -10,23 +10,40 @@ import { CatalogField } from '../../types/types';
 import { Reorder } from 'framer-motion';
 import { MessageType, notify } from '../../utils/notifier';
 
+// TODO: Usar formik para validaciones?
 const CatalogForm = () => {
    const navigate = useNavigate();
+   const { catalogId } = useParams();
    const [catalogName, setCatalogName] = useState('');
    const [catalogFields, setCatalogFields] = useState<CatalogField[]>([]);
    const loggedUser = useAuthStore((store) => store.loggedUser);
    const createCatalogStructure = useCatalogsStore((store) => store.createCatalogStructure);
+   const getCatalogStructureById = useCatalogsStore((store) => store.getCatalogStructureById);
+   const updateCatalogStructureById = useCatalogsStore((store) => store.updateCatalogStructureById);
 
    const handleAddField = () => {
       setCatalogFields([...catalogFields, { id: crypto.randomUUID().replace(/-/g, ''), name: '', type: 'text' }]);
    };
+
+   useEffect(() => {
+      if (catalogId === 'new') return;
+
+      async function getCatalogStructure() {
+         const catalog = await getCatalogStructureById(catalogId!);
+
+         setCatalogName(catalog!.catalogName);
+         setCatalogFields(catalog!.catalogFields);
+      }
+      getCatalogStructure();
+   }, []);
 
    const handleSaveCatalog = async () => {
       if (catalogName.trim() === '') return notify('Catalog name is required', MessageType.Error);
       if (catalogFields.filter((field) => field.name.trim() === '').length > 0)
          return notify('All fields must have a name', MessageType.Error);
 
-      await createCatalogStructure(loggedUser!.uid, catalogName, catalogFields);
+      if (catalogId === 'new') await createCatalogStructure(loggedUser!.uid, catalogName, catalogFields);
+      else await updateCatalogStructureById(catalogId!, loggedUser!.uid, catalogName, catalogFields);
       navigate('/catalogs');
    };
 
@@ -50,7 +67,7 @@ const CatalogForm = () => {
                }
             }}>
             <TextField
-               sx={{ flexGrow: 1 }}
+               sx={{ flexGrow: 1, maxWidth: 630 }}
                value={catalogName}
                onChange={(e) => setCatalogName(e.target.value)}
                label='Catalog Name'

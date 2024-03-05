@@ -2,7 +2,9 @@ import { create } from 'zustand';
 import {
    createCatalogStructureService,
    deleteCatalogStructureService,
-   getCatalogStrcutureService
+   getCatalogStrcutureService,
+   getCatalogStructureByIdService,
+   updateCatalogStructureByIdService
 } from '../services/database-service';
 import { devtools } from 'zustand/middleware';
 import { CatalogField, CatalogStructure } from '../types/types';
@@ -15,7 +17,9 @@ type Actions = {
    setCatalogsStructures: (catalogs: CatalogStructure[]) => void;
    createCatalogStructure: (uid: string, catalogName: string, catalogFields: CatalogField[]) => void;
    deleteCatalog: (catalogId: string) => void;
+   getCatalogStructureById: (catalogId: string) => Promise<CatalogStructure | null>;
    loadCatalogStructures: (uid: string) => void;
+   updateCatalogStructureById: (catalogId: string, uid: string, catalogName: string, catalogFields: CatalogField[]) => void;
    reset: () => void;
 };
 
@@ -44,6 +48,26 @@ export const useCatalogsStore = create<State & Actions>()(
          await deleteCatalogStructureService(catalogId);
          set((state: any) => ({
             catalogsStructures: state.catalogsStructures.filter((catalog: CatalogStructure) => catalog.catalogId !== catalogId)
+         }));
+      },
+      getCatalogStructureById: async (catalogId: string): Promise<CatalogStructure | null> => {
+         const catalog = await getCatalogStructureByIdService(catalogId);
+         if (catalog) return catalog;
+         else return null;
+      },
+      updateCatalogStructureById: async (catalogId: string, uid: string, catalogName: string, catalogFields: CatalogField[]) => {
+         await updateCatalogStructureByIdService(catalogId, uid, catalogName, catalogFields);
+         set((state: any) => ({
+            catalogsStructures: state.catalogsStructures.map((catalog: CatalogStructure) => {
+               if (catalog.catalogId === catalogId) {
+                  return {
+                     ...catalog,
+                     catalogName,
+                     catalogFields
+                  };
+               }
+               return catalog;
+            })
          }));
       }
    }))
