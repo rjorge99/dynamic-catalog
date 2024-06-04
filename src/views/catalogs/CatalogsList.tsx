@@ -67,7 +67,7 @@ const CatalogsList = () => {
                                  variant='contained'
                                  color='secondary'
                                  startIcon={<EditIcon />}
-                                 onClick={() => navigate(`/catalogs/${catalog.catalogId}`)}>
+                                 onClick={() => navigate(`/catalog/edit/${catalog.catalogId}`)}>
                                  Edit
                               </Button>
                               <Button
@@ -95,7 +95,7 @@ const CatalogsList = () => {
             variant='contained'
             size='large'
             startIcon={<ControlPointIcon />}
-            onClick={() => navigate('/catalogs/new')}>
+            onClick={() => navigate('/catalog/new')}>
             New Catalog
          </Button>
 

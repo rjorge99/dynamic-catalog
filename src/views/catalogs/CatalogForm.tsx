@@ -67,6 +67,7 @@ const CatalogForm = () => {
                }
             }}>
             <TextField
+               autoComplete='off'
                sx={{ flexGrow: 1, maxWidth: 630 }}
                value={catalogName}
                onChange={(e) => setCatalogName(e.target.value)}

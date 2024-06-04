@@ -24,8 +24,13 @@ const MenuList = () => {
    return (
       <>
          <List>
-            {catalogStructures.map(({ catalogName }) => (
-               <ListElement text={catalogName} key={catalogName} Icon={<Mail />} />
+            {catalogStructures.map(({ catalogName, catalogId }) => (
+               <ListElement
+                  text={catalogName}
+                  key={catalogName}
+                  onClick={() => navigate(`/catalog/list/${catalogId}`)}
+                  Icon={<Mail />}
+               />
             ))}
          </List>
          <Divider />

@@ -11,6 +11,7 @@ import NotFound from './views/NotFound.tsx';
 import PrivateRoutes from './routes/private-routes.tsx';
 import PublicRoutes from './routes/public-routes.tsx';
 import Register from './views/auth/Register.tsx';
+import CatalogList from './views/catalogs/CatalogList.tsx';
 
 const router = createBrowserRouter(
    createRoutesFromElements(
@@ -23,7 +24,9 @@ const router = createBrowserRouter(
                      <Route element={<Layout />}>
                         <Route index element={<DashBoard />} />
                         <Route path='/catalogs' element={<CatalogsList />} />
-                        <Route path='/catalogs/:catalogId' element={<CatalogForm />} />
+                        <Route path='/catalog/edit/:catalogId' element={<CatalogForm />} />
+                        <Route path='/catalog/:catalogId' element={<CatalogForm />} />
+                        <Route path='/catalog/list/:catalogId' element={<CatalogList />} />
                         <Route path='*' element={<NotFound />} />
                      </Route>
                   </Routes>
